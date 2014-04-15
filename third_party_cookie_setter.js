@@ -8,19 +8,25 @@ var csThirdPartyCookie = function () {
     'use strict';
 
     /**
-     * config optioins
+     * config options
      */
     var options = {
         thirdPartyCookieName: 'cs_third_party_accept',
-        returnUriParameter: 'cookieAttempted',
+        returnUriParameter: 'cookie_attempted',
         pathToCookieSetter: '/third-party-cookie-setter/example/third_party_cookie_setter.html',
-        returnUriKey: 'return_url'
+        returnUriKey: 'return_url',
+        frameUriKey: 'frame_url',
+        retainedUriParameters: ['eventid', 'descid'],
+        retainedUriParameterMapping: {
+            eventid: 'event',
+            descid: 'desc'
+        }
     };
 
 
     // http://stackoverflow.com/questions/11582512/how-to-get-url-parameters-with-javascript
-    function getURLParameter(name) {
-        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || ["", ""])[1].replace(/\+/g, '%20')) || null;
+    function getURLParameter(name, url) {
+        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(url) || ["", ""])[1].replace(/\+/g, '%20')) || null;
     }
 
     function setCookie() {
@@ -51,8 +57,11 @@ var csThirdPartyCookie = function () {
      * console.log(window.location.protocol);
      */
     function redirectToSetCookie() {
-        window.top.location.href = "//" + window.location.host + options.pathToCookieSetter +  "?" + options.returnUriKey + "=" + encodeURIComponent(document.referrer);
-        console.log('redirecting');
+        var parameters = [
+            options.returnUriKey + "=" + encodeURIComponent(document.referrer),
+            options.frameUriKey + "=" + encodeURIComponent(window.location)
+        ];
+        window.top.location.href = "//" + window.location.host + options.pathToCookieSetter +  "?" + parameters.join('&');
     }
 
     // not in frame so third party cookie bug not an issue
@@ -61,8 +70,26 @@ var csThirdPartyCookie = function () {
     }
 
     function returnToParent() {
-        var returnUrl = getURLParameter(options.returnUriKey);
+        var returnUrl = getURLParameter(options.returnUriKey, location.search);
         returnUrl += (returnUrl.split('?')[1] ? '&' : '?') + options.returnUriParameter + '=1';
+
+        if (options.retainedUriParameters.length) {
+            var frameUrl = getURLParameter(options.frameUriKey, location.search);
+
+            for (var i = 0; i < options.retainedUriParameters.length; i++) {
+
+                var uriParam = options.retainedUriParameters[i];
+                var paramValue = getURLParameter(uriParam, frameUrl);
+
+                if (paramValue != null) {
+                    if (options.retainedUriParameterMapping[uriParam]) {
+                        uriParam = options.retainedUriParameterMapping[uriParam];
+                    }
+                    returnUrl += '&' + uriParam + '=' + paramValue;
+                }
+            };
+        }
+
         window.location.href = returnUrl;
     }
 
