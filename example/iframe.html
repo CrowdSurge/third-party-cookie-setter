@@ -1,0 +1,15 @@
+<html>
+    <head>
+        <title>Third party iframe</title>
+    </head>
+    <body>
+        <h3>Inside iframe</h3>         
+        <script src="../third_party_cookie_setter.js"></script>
+        <script>
+            window.onload= function(){               
+                var thirdPartyCookie = new csThirdPartyCookie();
+                thirdPartyCookie.check();
+            };
+        </script>
+    </body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <title>Test In Safari - Attempt to set cookie and redirect</title>
+    </head>
+    <body>
+        <script src="../third_party_cookie_setter.js"></script>
+    	<script>
+            window.onload= function(){               
+                var thirdPartyCookie = new csThirdPartyCookie();
+                thirdPartyCookie.setAndReturn();
+            };
+        </script>
+    </body>
+</html>

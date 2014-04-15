@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Example parent site</title>
+        <style type="text/css">
+            body {background:#f0f0f0; font-family:Open Sans, sans-serif;} 
+            iframe {border: 2px solid #666;}
+            .wrapper{max-width:600px; margin:0 auto;}
+        </style>
+    </head>
+    <body >
+		<div class="wrapper">
+            <h3>Client Site - On Different Domain</h3>
+            <p>If the page in the iframe fails to set a cookie it will redirect the top window to a page on the same domain as the iframe so that a cookie can then be set<p>
+            <p>Once the cookie is set, the user will be redirected back to this same parent loading the same child.</p>
+            <p>This does not rely on browser detection (horrible), but attempts to set a cookie and if that fails, redirects the user.</p>
+            <p>If the user returns and a cookie was not set, inform the user and assume the user has disabled cookies.</p>
+
+            <h4>Notes</h4>
+            <ul>
+                <li>
+                    This site (index.html) and the iframe source (iframe.html) must be on 
+                    separate domains to demonstrate the issue with setting third party cookies 
+                    for specific browsers.
+                </li>
+            </ul>
+
+            <h4>To Test</h4>
+            <ul>
+                <li>Copy this URL into your clipboard</li>
+                <li>Click Safari > Reset Safari</li>
+                <li>Quit Safari &amp; Re-Open</li>
+                <li>Open the console</li>
+                <li>Go to the copied URL.</li>
+            </ul>
+            <!-- Iframe must be loaded from an external location -->
+            <iframe height="200" width="600" src="iframe.html" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
+		</div>
+    </body>
+</html>
