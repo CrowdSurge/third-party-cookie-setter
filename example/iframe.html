@@ -3,12 +3,14 @@
         <title>Third party iframe</title>
     </head>
     <body>
-        <h3>Inside iframe</h3>         
+        <h3>Inside iframe</h3>
         <script src="../csThirdPartyCookie.js"></script>
         <script>
-            window.onload= function(){               
+            window.onload= function(){
                 var thirdPartyCookie = new csThirdPartyCookie();
-                thirdPartyCookie.check();
+                if (!thirdPartyCookie.check()) {
+                    // cookies cannot be set so user should be informed
+                }
             };
         </script>
     </body>

@@ -1,36 +1,36 @@
 /**
  * Copyright (C) 2014 CrowdSurge
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
- * and associated documentation files (the "Software"), to deal in the Software without restriction, 
- * including without limitation the rights to use, copy, modify, merge, publish, distribute, 
- * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+ * and associated documentation files (the "Software"), to deal in the Software without restriction,
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute,
+ * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software
  * is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all copies 
+ * The above copyright notice and this permission notice shall be included in all copies
  * or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING 
- * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND 
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, 
- * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  *
  * csThirdPartyCookie
- * 
+ *
  * Fix to set cookies for a third party framed site. If the frame is unable to set a cookie,
  * the fix is to redirect the user to the third party site in the parent current window, set
  * a cookie and return to the parent and framed page the user was on.
- * 
+ *
  * Example:
- * 
- * The framed site includes the check if the cookie can be set and whether an attempt has been 
+ *
+ * The framed site includes the check if the cookie can be set and whether an attempt has been
  * made
- * 
+ *
  * <script src="/path/to/csThirdPartyCookie.js"></script>
  * <script>
- * window.onload= function(){               
+ * window.onload= function(){
  *     var thirdPartyCookie = new csThirdPartyCookie();
  *     if (!thirdPartyCookie.check()) {
  *         // cookies cannot be set so user should be informed
@@ -38,17 +38,17 @@
  * };
  * </script>
  *
- * The cookie setter sets a cookie and returns to the parent and framed page 
+ * The cookie setter sets a cookie and returns to the parent and framed page
  * made
- * 
+ *
  * <script src="/path/to/csThirdPartyCookie.js"></script>
  * <script>
- * window.onload= function(){               
+ * window.onload= function(){
  *     var thirdPartyCookie = new csThirdPartyCookie();
  *     thirdPartyCookie.setAndReturn();
  * };
  * </script>
- * 
+ *
  */
 var csThirdPartyCookie = function () {
     'use strict';
@@ -79,9 +79,9 @@ var csThirdPartyCookie = function () {
 
     /**
      * Returns the matched uri parameter
-     * 
+     *
      * Source: http://stackoverflow.com/questions/11582512/how-to-get-url-parameters-with-javascript
-     * 
+     *
      * @param {string} name
      * @param {string} url
      * @returns {string}
@@ -101,7 +101,7 @@ var csThirdPartyCookie = function () {
 
     /**
      * Check whether the cookie is set
-     * 
+     *
      * @returns {Boolean}
      */
     function isCookieSet() {
@@ -110,7 +110,7 @@ var csThirdPartyCookie = function () {
 
     /**
      * Check if an attempt to set a cookei form the parent window has been attempted
-     * 
+     *
      * @returns {Boolean}
      */
     function isReturnedFromRedirect() {
@@ -120,7 +120,7 @@ var csThirdPartyCookie = function () {
 
     /**
      * Handles cookies cannot be set from frame
-     * 
+     *
      * @returns {Boolean}
      */
     function unableToSetCookie() {
@@ -132,14 +132,14 @@ var csThirdPartyCookie = function () {
      * Redirect to cookie setter in parent
      * passes the top url as a uri parameter
      *
-     * document referrer as the returnUriKey works if the check is made on the first framed page loaded from the 
-     * parent. To use from within the framed site you will need to track the parent url through an integration 
-     * script or other means. 
-     * 
+     * document referrer as the returnUriKey works if the check is made on the first framed page loaded from the
+     * parent. To use from within the framed site you will need to track the parent url through an integration
+     * script or other means.
+     *
      */
     function redirectToSetCookie() {
         var parameters = [
-            options.returnUriKey + "=" + encodeURIComponent(document.referrer), 
+            options.returnUriKey + "=" + encodeURIComponent(document.referrer),
             options.frameUriKey + "=" + encodeURIComponent(window.location)
         ];
         window.top.location.href = "//" + window.location.host + options.pathToCookieSetter +  "?" + parameters.join('&');
@@ -147,7 +147,7 @@ var csThirdPartyCookie = function () {
 
     /**
      * Guard to check site is not loaded in a frame so cookei setting check not required
-     * 
+     *
      * @returns {Boolean}
      */
     function inFrame() {
@@ -185,7 +185,7 @@ var csThirdPartyCookie = function () {
 
     /**
      * Checks the framed page can set cookies and redirects to the cookie setter if required
-     * 
+     *
      * @returns {Boolean}
      */
     function check() {
