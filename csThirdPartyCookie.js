@@ -1,13 +1,24 @@
 /**
  * Copyright (C) 2014 CrowdSurge
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
+ * and associated documentation files (the "Software"), to deal in the Software without restriction, 
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute, 
+ * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software 
+ * is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in all copies 
+ * or substantial portions of the Software.
  *
- *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING 
+ * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND 
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, 
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  *
+ * csThirdPartyCookie
+ * 
  * Fix to set cookies for a third party framed site. If the frame is unable to set a cookie,
  * the fix is to redirect the user to the third party site in the parent current window, set
  * a cookie and return to the parent and framed page the user was on.
@@ -22,7 +33,7 @@
  * window.onload= function(){               
  *     var thirdPartyCookie = new csThirdPartyCookie();
  *     if (!thirdPartyCookie.check()) {
- *         // cookies cannot be set so user should be alerted
+ *         // cookies cannot be set so user should be informed
  *     }
  * };
  * </script>
@@ -66,7 +77,6 @@ var csThirdPartyCookie = function () {
     };
 
 
-   
     /**
      * Returns the matched uri parameter
      * 
@@ -122,11 +132,14 @@ var csThirdPartyCookie = function () {
      * Redirect to cookie setter in parent
      * passes the top url as a uri parameter
      *
-     * console.log(window.location.protocol);
+     * document referrer as the returnUriKey works if the check is made on the first framed page loaded from the 
+     * parent. To use from within the framed site you will need to track the parent url through an integration 
+     * script or other means. 
+     * 
      */
     function redirectToSetCookie() {
         var parameters = [
-            options.returnUriKey + "=" + encodeURIComponent(document.referrer),
+            options.returnUriKey + "=" + encodeURIComponent(document.referrer), 
             options.frameUriKey + "=" + encodeURIComponent(window.location)
         ];
         window.top.location.href = "//" + window.location.host + options.pathToCookieSetter +  "?" + parameters.join('&');
