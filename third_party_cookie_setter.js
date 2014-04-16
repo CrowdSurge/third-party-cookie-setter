@@ -1,7 +1,7 @@
 /**
- * 
- * 
- * 
+ *
+ *
+ *
  * @returns {csThirdPartyCookie.Anonym$0}
  */
 var csThirdPartyCookie = function () {
@@ -13,7 +13,7 @@ var csThirdPartyCookie = function () {
     var options = {
         thirdPartyCookieName: 'cs_third_party_accept',
         returnUriParameter: 'cookie_attempted',
-        pathToCookieSetter: '/third-party-cookie-setter/example/third_party_cookie_setter.html',
+        pathToCookieSetter: '/store/js/default/third_party_cookie_setter.html',
         returnUriKey: 'return_url',
         frameUriKey: 'frame_url',
         retainedUriParameters: ['eventid', 'descid'],
@@ -32,7 +32,7 @@ var csThirdPartyCookie = function () {
     function setCookie() {
         var exdate = new Date();
         exdate.setDate(exdate.getDate() + 2);
-        document.cookie = options.thirdPartyCookieName + "=1;expires=" + exdate.toUTCString();
+        document.cookie = options.thirdPartyCookieName + "=1;expires=" + exdate.toUTCString() + "; path=/";
     }
 
     function isCookieSet() {
@@ -71,23 +71,25 @@ var csThirdPartyCookie = function () {
 
     function returnToParent() {
         var returnUrl = getURLParameter(options.returnUriKey, location.search);
-        returnUrl += (returnUrl.split('?')[1] ? '&' : '?') + options.returnUriParameter + '=1';
 
-        if (options.retainedUriParameters.length) {
-            var frameUrl = getURLParameter(options.frameUriKey, location.search);
+        if (returnUrl != null) {
+            returnUrl += (returnUrl.split('?')[1] ? '&' : '?') + options.returnUriParameter + '=1';
+            if (options.retainedUriParameters.length) {
+                var frameUrl = getURLParameter(options.frameUriKey, location.search);
 
-            for (var i = 0; i < options.retainedUriParameters.length; i++) {
+                for (var i = 0; i < options.retainedUriParameters.length; i++) {
 
-                var uriParam = options.retainedUriParameters[i];
-                var paramValue = getURLParameter(uriParam, frameUrl);
+                    var uriParam = options.retainedUriParameters[i];
+                    var paramValue = getURLParameter(uriParam, frameUrl);
 
-                if (paramValue != null) {
-                    if (options.retainedUriParameterMapping[uriParam]) {
-                        uriParam = options.retainedUriParameterMapping[uriParam];
+                    if (paramValue != null) {
+                        if (options.retainedUriParameterMapping[uriParam]) {
+                            uriParam = options.retainedUriParameterMapping[uriParam];
+                        }
+                        returnUrl += '&' + uriParam + '=' + paramValue;
                     }
-                    returnUrl += '&' + uriParam + '=' + paramValue;
-                }
-            };
+                };
+            }
         }
 
         window.location.href = returnUrl;
