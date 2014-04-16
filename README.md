@@ -5,8 +5,8 @@ framed site the first time a user visits the page.
 
 This is often necessary for a legitimate site to function.
 
-This solution fixes this issue by attempting to set a cookie and
-redirecting the user the user out of the frame to to parent window,
+This solution fixes this issue by attempting to set a cookie, or
+redirecting the user out of the frame to to parent window,
 setting a cookie, and returning the user back to the parent page
 and framed page.
 
