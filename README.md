@@ -43,3 +43,9 @@ window.onload= function(){
 };
 </script>
 ````
+
+### Demo
+
+Open the below URL in a reset (Safari > Reset Safari..) instance of Safari (or another browser that doesn't support third party cookies) and you should see the page on crowdsurge.com, holding an iframe from amazonaws.com perform a redirect on the top window to amazonaws.com where a cookie is then set and automatically redirected to the original URL. Inspect cookies to see 'cs_thid_party_accept' has now been set on amazonaws.com.
+
+http://www.crowdsurge.com/public-repos/third-party-cookie-setter/example/
